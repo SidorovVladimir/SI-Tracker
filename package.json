@@ -1,0 +1,16 @@
+{
+  "name": "si-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "start": "yarn workspaces run start",
+    "build": "yarn workspaces run build"
+  },
+  "repository": "git@github.com:SidorovVladimir/SI-Tracker.git",
+  "author": "Vladimir Sidorov <v.sidorov29091988@gmail.com>",
+  "license": "MIT"
+}
