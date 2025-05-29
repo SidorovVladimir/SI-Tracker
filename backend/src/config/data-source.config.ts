@@ -27,8 +27,10 @@ export default (): DataSourceOptions => {
       return {
         ...defaultConfig,
         type: 'sqlite',
-        database: 'runit.sqlite',
-        synchronize: false,
+        database: 'db.sqlite',
+        //  TODO: in production select false
+        // synchronize: false,
+        synchronize: true,
       };
   }
 };
