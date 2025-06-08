@@ -1,19 +1,31 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'first_name' })
+  @Column({ type: 'varchar', length: 55, name: 'first_name' })
   firstName: string;
 
-  @Column({ name: 'last_name' })
+  @Column({ type: 'varchar', length: 55, name: 'last_name' })
   lastName: string;
 
-  @Column('text', { unique: true })
+  @Column({ type: 'varchar', length: 55, unique: true })
   email: string;
 
   @Column('text')
   password: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }
