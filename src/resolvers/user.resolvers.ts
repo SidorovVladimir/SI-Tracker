@@ -1,7 +1,3 @@
-import { db } from '../db/client';
-import { hashPassword } from '../utils/auth';
-import { users } from '../entities/user/model';
-import { eq } from 'drizzle-orm';
 import { UserService } from '../services/user.service';
 import { CreateUserInputSchema } from '../schemas/user.schema';
 import { ZodError } from 'zod';
@@ -12,13 +8,8 @@ export const Query = {
   users: async (_: unknown, __: unknown, context: any): Promise<User[]> => {
     return await UserService.getUsers();
   },
-  user: async (_: unknown, { id }: { id: number }) => {
-    const result = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, id))
-      .limit(1);
-    return result[0] || null;
+  user: async (_: unknown, { id }: { id: string }): Promise<User> => {
+    return await UserService.getUser(id);
   },
 };
 
