@@ -33,7 +33,7 @@ export class UserService {
       .limit(1);
 
     if (!result[0]) {
-      throw new Error('Failed to get user');
+      throw new Error(`Пользователь с ID ${userId} не найден`);
     }
     return result[0];
   }

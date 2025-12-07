@@ -1,0 +1,42 @@
+type Device {
+  id: ID!
+  name: String!
+  type: String!
+  serialNumber: String!
+  releaseDate: String
+  grsiNumber: String!
+  measurementRange: String!
+  accuracy: String!
+  inventoryNumber: String!
+  receiptDate: String
+  fabricator: String
+  verificationInterval: String
+  archived: Boolean!
+  nomenclature: String
+  createdAt: String!
+}
+
+type Query {
+  devices: [Device!]!
+  device(id: ID!): Device!
+}
+
+input CreateDeviceInput {
+  name: String!
+  type: String!
+  serialNumber: String!
+  releaseDate: String
+  grsiNumber: String!
+  measurementRange: String!
+  accuracy: String!
+  inventoryNumber: String!
+  receiptDate: String
+  fabricator: String
+  verificationInterval: String
+  archived: Boolean! = false
+  nomenclature: String
+}
+
+type Mutation {
+  createDevice(input: CreateDeviceInput!): Device!
+}
