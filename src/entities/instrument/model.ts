@@ -28,3 +28,5 @@ export const devices = pgTable('devices', {
 
 export type Device = typeof devices.$inferSelect;
 export type NewDevice = typeof devices.$inferInsert;
+
+// instruments  verifications, comments, documents, instrumentScopes;
