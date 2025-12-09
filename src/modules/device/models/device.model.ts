@@ -25,5 +25,3 @@ export const devices = pgTable('devices', {
   nomenclature: varchar('nomenclature', { length: 50 }),                     // Номенклатура по 1С
   createdAt: timestamp('created_at').defaultNow(),
 });
-
-

@@ -2,7 +2,7 @@ import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
 import { cities } from './city.model';
 
 // Юридическое лицо
-export const legalEntities = pgTable('legal_entities', {
+export const organizations = pgTable('organizations', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 255 }).notNull(),
   cityId: uuid('city_id')
