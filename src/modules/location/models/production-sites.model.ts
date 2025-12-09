@@ -1,19 +1,8 @@
 import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
+import { legalEntities } from './organization.model';
+import { cities } from './city.model';
 
-export const cities = pgTable('cities', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: varchar('name', { length: 255 }).notNull(),
-});
-
-export const legalEntities = pgTable('legal_entities', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: varchar('name', { length: 255 }).notNull(),
-  cityId: uuid('city_id')
-    .notNull()
-    .references(() => cities.id, { onDelete: 'restrict' }),
-  address: text('address'),
-});
-
+// Производственная площадка (Участок)
 export const productionSites = pgTable('production_sites', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 255 }).notNull(),
