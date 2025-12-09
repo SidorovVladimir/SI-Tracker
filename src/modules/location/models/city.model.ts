@@ -1,4 +1,4 @@
-import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 
 // Город
 export const cities = pgTable('cities', {

@@ -6,6 +6,10 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { statuses } from '../../catalog/models/status.model';
+import { productionSites } from '../../location/models/production-sites.model';
+import { equipmentTypes } from '../../catalog/models/equipment.model';
+import { measurementTypes } from '../../catalog/models/measurement.model';
 
 // Прибор (Инструмент)
 export const devices = pgTable('devices', {
@@ -24,4 +28,8 @@ export const devices = pgTable('devices', {
   archived: boolean('archived').notNull().default(false),                    // В архиве
   nomenclature: varchar('nomenclature', { length: 50 }),                     // Номенклатура по 1С
   createdAt: timestamp('created_at').defaultNow(),
+  statusId: uuid('status_id').notNull().references(() => statuses.id),
+  productionSiteId: uuid('production_site_id').notNull().references(() => productionSites.id),
+  equipmentTypeId: uuid('equipment_type_id').notNull().references(() => equipmentTypes.id),
+  measurementTypeId: uuid('measurement_type_id').notNull().references(() => measurementTypes.id),
 });
