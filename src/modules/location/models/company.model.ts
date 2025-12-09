@@ -6,4 +6,3 @@ export const companies = pgTable('companies', {
   name: varchar('name', { length: 255 }).notNull(),
   address: text('address'),
 });
-

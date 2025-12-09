@@ -3,6 +3,6 @@ import { mergeResolvers } from '@graphql-tools/merge';
 import path from 'path';
 
 const resolversArray = loadFilesSync(
-  path.join(__dirname, '../resolvers/*.resolvers.ts')
+  path.join(__dirname, '../modules/**/resolvers/*.resolver.ts')
 );
 export const resolvers = mergeResolvers(resolversArray);

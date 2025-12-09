@@ -1,8 +1,8 @@
-import { UserService } from '../services/user.service';
-import { CreateUserInputSchema } from '../schemas/user.schema';
+import { UserService } from '../service/user.service';
+import { CreateUserInputSchema } from '../dto/CreateUserDto';
 import { ZodError } from 'zod';
-import { formatZodErrors } from '../utils/error';
-import type { User } from '../types/user.types';
+import { formatZodErrors } from '../../../utils/error';
+import type { User } from '../user.types';
 
 export const Query = {
   users: async (_: unknown, __: unknown, context: any): Promise<User[]> => {

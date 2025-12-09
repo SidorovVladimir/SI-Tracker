@@ -1,7 +1,21 @@
-import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, primaryKey, uuid, varchar } from 'drizzle-orm/pg-core';
+import { devices } from '../../device/models/device.model';
 
 // Сферы применения (ГРОЕИ и прочие) (ОТ, учет ресурсов, ПБ, сертификация продукции, аккредитация ИЛ, правовое поле, добровольно)
 export const scopes = pgTable('scopes', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 255 }).notNull(),
 });
+
+export const scopesToDevices = pgTable(
+  'scopes_to_devices',
+  {
+    scopeId: uuid('scope_id')
+      .notNull()
+      .references(() => scopes.id),
+    deviceId: uuid('device_id')
+      .notNull()
+      .references(() => devices.id),
+  },
+  (t) => [primaryKey({ columns: [t.scopeId, t.deviceId] })]
+);

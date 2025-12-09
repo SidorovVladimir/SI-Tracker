@@ -1,10 +1,9 @@
-// services/user.service.ts
-import { db } from '../db/client';
-import { NewUser, users } from '../entities/user/model';
+import { db } from '../../../db/client';
+import { users } from '../user.model';
 import { eq } from 'drizzle-orm';
-import { hashPassword } from '../utils/auth';
-import type { User } from '../types/user.types';
-import { CreateUserInput } from '../schemas/user.schema';
+import { hashPassword } from '../../../utils/auth';
+import type { User, NewUser } from '../user.types';
+import { CreateUserInput } from '../dto/CreateUserDto';
 
 export class UserService {
   static async getUsers(): Promise<User[]> {
@@ -15,6 +14,7 @@ export class UserService {
         lastName: users.lastName,
         email: users.email,
         createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
       })
       .from(users);
   }
@@ -27,6 +27,7 @@ export class UserService {
         lastName: users.lastName,
         email: users.email,
         createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
       })
       .from(users)
       .where(eq(users.id, userId))
@@ -43,7 +44,7 @@ export class UserService {
       firstName: input.firstName,
       lastName: input.lastName,
       email: input.email,
-      password: await hashPassword(input.password),
+      passwordHash: await hashPassword(input.password),
     };
 
     const [user] = await db.insert(users).values(userData).returning();
@@ -51,7 +52,7 @@ export class UserService {
     if (!user) {
       throw new Error('Failed to create user');
     }
-    const { password, ...publicUser } = user;
+    const { passwordHash, ...publicUser } = user;
     return publicUser;
   }
 }

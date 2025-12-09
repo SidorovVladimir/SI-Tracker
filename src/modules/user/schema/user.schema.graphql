@@ -4,6 +4,7 @@ type User {
   lastName: String!
   email: String!
   createdAt: String
+  updatedAt: String
 }
 
 type Query {
