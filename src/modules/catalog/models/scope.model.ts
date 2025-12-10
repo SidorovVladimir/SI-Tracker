@@ -7,6 +7,7 @@ export const scopes = pgTable('scopes', {
   name: varchar('name', { length: 255 }).notNull(),
 });
 
+// Таблица связи ManyToMany Сфер применения и приборов.
 export const scopesToDevices = pgTable(
   'scopes_to_devices',
   {
