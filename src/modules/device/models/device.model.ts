@@ -7,9 +7,9 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 import { statuses } from '../../catalog/models/status.model';
-import { productionSites } from '../../location/models/production-sites.model';
-import { equipmentTypes } from '../../catalog/models/equipment.model';
-import { measurementTypes } from '../../catalog/models/measurement.model';
+import { productionSites } from '../../location/models/productionSites.model';
+import { equipmentTypes } from '../../catalog/models/equipmentType.model';
+import { measurementTypes } from '../../catalog/models/measurementType.model';
 
 // Прибор (Инструмент)
 export const devices = pgTable('devices', {

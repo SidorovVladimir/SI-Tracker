@@ -14,7 +14,6 @@ export const Query = {
 
 export const Mutation = {
   createCity: async (_: unknown, { input }: { input: unknown }) => {
-
 		try {
 			const validateInput = CreateCityInputSchema.parse(input);
 			return await CityService.createCity(validateInput)

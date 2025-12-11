@@ -1,5 +1,5 @@
 import { pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
-import { metrologyControleTypes } from '../../catalog/models/metrology-control.model';
+import { metrologyControleTypes } from '../../catalog/models/metrologyControlType.model';
 import { devices } from './device.model';
 
 // Данные о поверках
