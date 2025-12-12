@@ -4,14 +4,14 @@ type City {
 }
 
 type Query {
-	cities: [City!]!
-	city(id: ID!): City!
+  cities: [City!]!
+  city(id: ID!): City!
 }
 
-input CreateInputCity {
-	name: String!
+input CreateCityInput {
+  name: String!
 }
 
 type Mutation {
-	createCity(input: CreateInputCity!): City!
+  createCity(input: CreateCityInput!): City!
 }

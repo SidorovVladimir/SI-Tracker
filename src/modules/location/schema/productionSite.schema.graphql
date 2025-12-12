@@ -1,0 +1,21 @@
+type ProductionSite {
+  id: ID!
+  name: String!
+  companyId: ID!
+  cityId: ID!
+}
+
+type Query {
+  productionSites: [ProductionSite!]!
+  productionSite(id: ID!): ProductionSite!
+}
+
+input CreateProductionSiteInput {
+  name: String!
+  companyId: ID!
+  cityId: ID!
+}
+
+type Mutation {
+  createProductionSite(input: CreateProductionSiteInput!): ProductionSite!
+}

@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm';
 import { hashPassword } from '../../../utils/auth';
 import type { User, NewUser } from '../user.types';
 import { CreateUserInput } from '../dto/CreateUserDto';
+import { UpdateUserInput } from '../dto/UpdateUserDto';
 
 export class UserService {
   static async getUsers(): Promise<User[]> {
@@ -55,4 +56,9 @@ export class UserService {
     const { passwordHash, ...publicUser } = user;
     return publicUser;
   }
+
+  static async updateUser(
+    userId: string,
+    input: UpdateUserInput
+  ): Promise<User> {}
 }
