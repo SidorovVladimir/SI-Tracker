@@ -1,7 +1,7 @@
 type Device {
   id: ID!
   name: String!
-  type: String!
+  model: String!
   serialNumber: String!
   releaseDate: String
   grsiNumber: String!
@@ -9,11 +9,15 @@ type Device {
   accuracy: String!
   inventoryNumber: String!
   receiptDate: String
-  fabricator: String
+  manufacturer: String
   verificationInterval: String
   archived: Boolean!
   nomenclature: String
   createdAt: String!
+  statusId: ID!
+  productionSiteId: ID!
+  equipmentTypeId: ID!
+  measurementTypeId: ID!
 }
 
 type Query {
@@ -23,7 +27,7 @@ type Query {
 
 input CreateDeviceInput {
   name: String!
-  type: String!
+  model: String!
   serialNumber: String!
   releaseDate: String
   grsiNumber: String!
@@ -31,10 +35,14 @@ input CreateDeviceInput {
   accuracy: String!
   inventoryNumber: String!
   receiptDate: String
-  fabricator: String
+  manufacturer: String
   verificationInterval: String
-  archived: Boolean! = false
+  archived: Boolean!
   nomenclature: String
+  statusId: ID!
+  productionSiteId: ID!
+  equipmentTypeId: ID!
+  measurementTypeId: ID!
 }
 
 type Mutation {
