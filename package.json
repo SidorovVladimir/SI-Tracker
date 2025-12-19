@@ -1,5 +1,5 @@
 {
-  "name": "si-tracker",
+  "name": "si-tracker-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SidorovVladimir/SI-Tracker.git"
+    "url": "git+https://github.com/SidorovVladimir/SI-Tracker-backend.git"
   },
   "author": "Sidorov Vladimir <v.sidorov29091988@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SidorovVladimir/SI-Tracker/issues"
+    "url": "https://github.com/SidorovVladimir/SI-Tracker-backend/issues"
   },
-  "homepage": "https://github.com/SidorovVladimir/SI-Tracker#readme",
+  "homepage": "https://github.com/SidorovVladimir/SI-Tracker-backend#readme",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
