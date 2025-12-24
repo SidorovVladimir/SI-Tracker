@@ -1,6 +1,8 @@
 type City {
   id: ID!
   name: String!
+  createdAt: String
+  updatedAt: String
 }
 
 type Query {

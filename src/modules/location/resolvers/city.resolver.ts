@@ -2,6 +2,7 @@ import { ZodError } from 'zod';
 import { CreateCityInputSchema } from '../dto/CreateCityDto';
 import { CityService } from '../service/city.service';
 import { formatZodErrors } from '../../../utils/error';
+import { CityEntity } from '../types/city.types';
 
 export const Query = {
   cities: async () => {
@@ -11,7 +12,10 @@ export const Query = {
 };
 
 export const Mutation = {
-  createCity: async (_: unknown, { input }: { input: unknown }) => {
+  createCity: async (
+    _: unknown,
+    { input }: { input: unknown }
+  ): Promise<CityEntity> => {
     try {
       const validatedInput = CreateCityInputSchema.parse(input);
       return await CityService.createCity(validatedInput);

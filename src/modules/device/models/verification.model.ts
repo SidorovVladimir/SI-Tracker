@@ -18,4 +18,6 @@ export const verifications = pgTable('verifications', {
   deviceId: uuid('device_id')
     .notNull()
     .references(() => devices.id),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });

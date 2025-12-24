@@ -40,4 +40,5 @@ export const devices = pgTable('devices', {
   measurementTypeId: uuid('measurement_type_id')
     .notNull()
     .references(() => measurementTypes.id),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
