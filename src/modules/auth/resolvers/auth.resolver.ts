@@ -6,6 +6,7 @@ import { UserService } from '../../user/service/user.service';
 import jwt from 'jsonwebtoken';
 import { LoginInputSchema } from '../dto/LoginDto';
 import { AuthService } from '../service/auth.service';
+import { setAuthCookie } from '../../../utils/auth';
 
 export const Query = {
   me: (_: unknown, __: unknown, context: any) => {
@@ -29,24 +30,7 @@ export const Mutation = {
     try {
       const validatedInput = CreateUserInputSchema.parse(input);
       const user = await UserService.createUser(validatedInput);
-      const token = jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        },
-        process.env.JWT_SECRET!,
-        { expiresIn: '7d' }
-      );
-
-      res.cookie('auth_token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        path: '/graphql',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
+      setAuthCookie(res, user);
       return {
         success: true,
         user,
@@ -65,7 +49,12 @@ export const Mutation = {
   ) => {
     try {
       const validatedInput = LoginInputSchema.parse(input);
-      return await AuthService.Login(validatedInput);
+      const user = await AuthService.Login(validatedInput);
+      setAuthCookie(res, user);
+      return {
+        success: true,
+        user,
+      };
     } catch (err) {
       if (err instanceof ZodError) {
         throw new Error(JSON.stringify(formatZodErrors(err)));

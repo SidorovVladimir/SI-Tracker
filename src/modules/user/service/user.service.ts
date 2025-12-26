@@ -5,6 +5,7 @@ import { hashPassword } from '../../../utils/auth';
 import type { User, NewUser } from '../user.types';
 import { CreateUserInput } from '../dto/CreateUserDto';
 import { UpdateUserInput } from '../dto/UpdateUserDto';
+import { AuthenticationError } from '../../../utils/errors';
 
 export class UserService {
   static async getUsers(): Promise<User[]> {
@@ -40,7 +41,32 @@ export class UserService {
     return result[0];
   }
 
+  static async getByEmail(email: string) {
+    const result = await db
+      .select({
+        id: users.id,
+        firstName: users.firstName,
+        lastName: users.lastName,
+        email: users.email,
+        password: users.passwordHash,
+      })
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+
+    if (!result[0]) {
+      return null;
+    }
+    return result[0];
+  }
+
   static async createUser(input: CreateUserInput) {
+    const existUser = await this.getByEmail(input.email);
+
+    if (existUser)
+      throw new AuthenticationError(
+        'Пользователь с таким почтовым адресом существует'
+      );
     const userData: NewUser = {
       firstName: input.firstName,
       lastName: input.lastName,

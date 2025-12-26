@@ -4,11 +4,11 @@ import express from 'express';
 import { createServer } from 'http';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import cors from 'cors';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 
 import { typeDefs } from './graphql/typeDefs';
 import { resolvers } from './graphql/resolvers';
+import { createContext } from './context';
 
 async function startApolloServer() {
   const app = express();
@@ -31,27 +31,7 @@ async function startApolloServer() {
     express.json(),
     cookieParser(),
     expressMiddleware(server, {
-      context: async ({ req, res }) => {
-        let currentUser = null;
-        const token = req.cookies?.auth_token;
-        if (token) {
-          try {
-            const payload = jwt.verify(
-              token,
-              process.env.JWT_SECRET!
-            ) as JwtPayload;
-            currentUser = {
-              id: payload.id,
-              firstName: payload.firstName,
-              lastName: payload.lastName,
-              email: payload.email,
-            };
-          } catch (err) {
-            console.warn(err);
-          }
-        }
-        return { currentUser, req, res };
-      },
+      context: createContext,
     })
   );
 

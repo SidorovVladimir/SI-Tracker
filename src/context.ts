@@ -1,0 +1,44 @@
+import { Request, Response } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
+interface TokenPayload extends JwtPayload {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface Context {
+  req: Request;
+  res: Response;
+  currentUser: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  } | null;
+}
+export const createContext = async ({
+  req,
+  res,
+}: {
+  req: Request;
+  res: Response;
+}): Promise<Context> => {
+  let currentUser = null;
+  const token = req.cookies?.auth_token;
+  if (token) {
+    try {
+      const payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+      currentUser = {
+        id: payload.id,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        email: payload.email,
+      };
+    } catch (err) {
+      console.warn('invalid auth token', err);
+    }
+  }
+  return { currentUser, req, res };
+};
