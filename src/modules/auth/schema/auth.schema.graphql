@@ -1,0 +1,18 @@
+type AuthPayload {
+  success: Boolean!
+  user: User
+}
+
+type Query {
+  me: User
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  register(input: CreateUserInput!): AuthPayload!
+  login(input: LoginUserInput!): AuthPayload!
+}

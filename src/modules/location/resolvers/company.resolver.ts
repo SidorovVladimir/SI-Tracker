@@ -1,7 +1,7 @@
 import { ZodError } from 'zod';
 import { CreateCompanyInputSchema } from '../dto/CreateCompanyDto';
 import { CompanyService } from '../service/company.service';
-import { formatZodErrors } from '../../../utils/error';
+import { formatZodErrors } from '../../../utils/errors';
 
 export const Query = {
   companies: async () => {

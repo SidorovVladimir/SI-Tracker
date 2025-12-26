@@ -1,7 +1,7 @@
 import { ZodError } from 'zod';
 import { CreateCityInputSchema } from '../dto/CreateCityDto';
 import { CityService } from '../service/city.service';
-import { formatZodErrors } from '../../../utils/error';
+import { formatZodErrors } from '../../../utils/errors';
 import { CityEntity } from '../types/city.types';
 
 export const Query = {

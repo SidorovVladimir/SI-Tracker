@@ -1,7 +1,7 @@
 import { UserService } from '../service/user.service';
 import { CreateUserInputSchema } from '../dto/CreateUserDto';
 import { ZodError } from 'zod';
-import { formatZodErrors } from '../../../utils/error';
+import { formatZodErrors } from '../../../utils/errors';
 import type { User } from '../user.types';
 import { UpdateUserInputSchema } from '../dto/UpdateUserDto';
 
@@ -15,25 +15,6 @@ export const Query = {
 };
 
 export const Mutation = {
-  createUser: async (
-    _: unknown,
-    {
-      input,
-    }: {
-      input: unknown;
-    }
-  ): Promise<User> => {
-    try {
-      const validatedInput = CreateUserInputSchema.parse(input);
-      return await UserService.createUser(validatedInput);
-    } catch (err) {
-      if (err instanceof ZodError) {
-        throw new Error(JSON.stringify(formatZodErrors(err)));
-      }
-      throw err;
-    }
-  },
-
   updateUser: async (
     _: unknown,
     { id, input }: { id: string; input: unknown }

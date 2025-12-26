@@ -4,7 +4,7 @@ import {
   CreateProductionSiteInputSchema,
 } from '../dto/CreateProductionSiteDto';
 import { ProductionSiteService } from '../service/productionSite.service';
-import { formatZodErrors } from '../../../utils/error';
+import { formatZodErrors } from '../../../utils/errors';
 
 export const Query = {
   productionSites: async () => {

@@ -40,7 +40,7 @@ export class UserService {
     return result[0];
   }
 
-  static async createUser(input: CreateUserInput): Promise<User> {
+  static async createUser(input: CreateUserInput) {
     const userData: NewUser = {
       firstName: input.firstName,
       lastName: input.lastName,
