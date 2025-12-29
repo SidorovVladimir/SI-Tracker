@@ -15,4 +15,5 @@ input LoginUserInput {
 type Mutation {
   register(input: CreateUserInput!): AuthPayload!
   login(input: LoginUserInput!): AuthPayload!
+  logout: Boolean!
 }

@@ -60,4 +60,14 @@ export const Mutation = {
       throw err;
     }
   },
+
+  logout: async (_: unknown, __: unknown, { res }: Context) => {
+    res.clearCookie('auth_token', {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      path: '/',
+    });
+    return true;
+  },
 };
