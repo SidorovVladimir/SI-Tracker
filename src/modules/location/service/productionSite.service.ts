@@ -1,7 +1,9 @@
+import { DrizzleDB } from '../../../db/client';
 import { CreateProductionSiteInput } from '../dto/CreateProductionSiteDto';
 
 export class ProductionSiteService {
-  static async getProductionSites() {}
-  static async getProductionSite(id: string) {}
-  static async createProductionSite(input: CreateProductionSiteInput) {}
+  constructor(private db: DrizzleDB) {}
+  async getProductionSites() {}
+  async getProductionSite(id: string) {}
+  async createProductionSite(input: CreateProductionSiteInput) {}
 }

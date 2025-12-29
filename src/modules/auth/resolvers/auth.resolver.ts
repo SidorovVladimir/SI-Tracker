@@ -1,19 +1,17 @@
 import { ZodError } from 'zod';
 import { CreateUserInputSchema } from '../../user/dto/CreateUserDto';
-import type { User } from '../../user/user.types';
 import { AuthenticationError, formatZodErrors } from '../../../utils/errors';
-import { UserService } from '../../user/service/user.service';
-import jwt from 'jsonwebtoken';
 import { LoginInputSchema } from '../dto/LoginDto';
 import { AuthService } from '../service/auth.service';
 import { setAuthCookie } from '../../../utils/auth';
+import { Context } from '../../../context';
 
 export const Query = {
-  me: (_: unknown, __: unknown, context: any) => {
-    if (!context.currentUser) {
+  me: (_: unknown, __: unknown, { currentUser }: Context) => {
+    if (!currentUser) {
       throw new AuthenticationError();
     }
-    return context.currentUser;
+    return currentUser;
   },
 };
 
@@ -25,11 +23,11 @@ export const Mutation = {
     }: {
       input: unknown;
     },
-    { res }: { res: any }
+    { db, res }: Context
   ) => {
     try {
       const validatedInput = CreateUserInputSchema.parse(input);
-      const user = await UserService.createUser(validatedInput);
+      const user = await new AuthService(db).register(validatedInput);
       setAuthCookie(res, user);
       return {
         success: true,
@@ -45,11 +43,11 @@ export const Mutation = {
   login: async (
     _: unknown,
     { input }: { input: unknown },
-    { res }: { res: any }
+    { res, db }: Context
   ) => {
     try {
       const validatedInput = LoginInputSchema.parse(input);
-      const user = await AuthService.Login(validatedInput);
+      const user = await new AuthService(db).Login(validatedInput);
       setAuthCookie(res, user);
       return {
         success: true,

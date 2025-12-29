@@ -11,3 +11,5 @@ export const db =
   process.env.DB_MODE === 'local'
     ? drizzlePglite(new PGlite(process.env.DATABASE_URL!))
     : drizzlePg({ connection: process.env.DATABASE_URL! });
+
+export type DrizzleDB = typeof db;

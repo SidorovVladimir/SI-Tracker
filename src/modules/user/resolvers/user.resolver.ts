@@ -1,27 +1,32 @@
 import { UserService } from '../service/user.service';
-import { CreateUserInputSchema } from '../dto/CreateUserDto';
 import { ZodError } from 'zod';
 import { formatZodErrors } from '../../../utils/errors';
 import type { User } from '../user.types';
 import { UpdateUserInputSchema } from '../dto/UpdateUserDto';
+import { Context } from '../../../context';
 
 export const Query = {
-  users: async (_: unknown, __: unknown, context: any): Promise<User[]> => {
-    return await UserService.getUsers();
+  users: async (_: unknown, __: unknown, { db }: Context): Promise<User[]> => {
+    return await new UserService(db).getUsers();
   },
-  user: async (_: unknown, { id }: { id: string }): Promise<User> => {
-    return await UserService.getUser(id);
+  user: async (
+    _: unknown,
+    { id }: { id: string },
+    { db }: Context
+  ): Promise<User> => {
+    return await new UserService(db).getUser(id);
   },
 };
 
 export const Mutation = {
   updateUser: async (
     _: unknown,
-    { id, input }: { id: string; input: unknown }
+    { id, input }: { id: string; input: unknown },
+    { db }: Context
   ): Promise<User> => {
     try {
       const validatedInput = UpdateUserInputSchema.parse(input);
-      return await UserService.updateUser(id, validatedInput);
+      return await new UserService(db).updateUser(id, validatedInput);
     } catch (err) {
       if (err instanceof ZodError) {
         throw new Error(JSON.stringify(formatZodErrors(err)));

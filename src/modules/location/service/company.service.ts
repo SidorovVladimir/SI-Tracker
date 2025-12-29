@@ -1,7 +1,9 @@
+import { DrizzleDB } from '../../../db/client';
 import { CreateCompanyInput } from '../dto/CreateCompanyDto';
 
 export class CompanyService {
-  static async getCompanies() {}
-  static async getCompany(id: string) {}
-  static async createCompany(input: CreateCompanyInput) {}
+  constructor(private db: DrizzleDB) {}
+  async getCompanies() {}
+  async getCompany(id: string) {}
+  async createCompany(input: CreateCompanyInput) {}
 }

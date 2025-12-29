@@ -1,4 +1,4 @@
-import { db } from '../../../db/client';
+import { DrizzleDB } from '../../../db/client';
 import { users } from '../user.model';
 import { eq } from 'drizzle-orm';
 import { hashPassword } from '../../../utils/auth';
@@ -8,29 +8,14 @@ import { UpdateUserInput } from '../dto/UpdateUserDto';
 import { AuthenticationError } from '../../../utils/errors';
 
 export class UserService {
-  static async getUsers(): Promise<User[]> {
-    return await db
-      .select({
-        id: users.id,
-        firstName: users.firstName,
-        lastName: users.lastName,
-        email: users.email,
-        createdAt: users.createdAt,
-        updatedAt: users.updatedAt,
-      })
-      .from(users);
+  constructor(private db: DrizzleDB) {}
+  async getUsers(): Promise<User[]> {
+    return await this.db.select().from(users);
   }
 
-  static async getUser(userId: string): Promise<User> {
-    const result = await db
-      .select({
-        id: users.id,
-        firstName: users.firstName,
-        lastName: users.lastName,
-        email: users.email,
-        createdAt: users.createdAt,
-        updatedAt: users.updatedAt,
-      })
+  async getUser(userId: string): Promise<User> {
+    const result = await this.db
+      .select()
       .from(users)
       .where(eq(users.id, userId))
       .limit(1);
@@ -41,29 +26,22 @@ export class UserService {
     return result[0];
   }
 
-  static async getByEmail(email: string) {
-    const result = await db
-      .select({
-        id: users.id,
-        firstName: users.firstName,
-        lastName: users.lastName,
-        email: users.email,
-        password: users.passwordHash,
-      })
+  async getByEmail(email: string) {
+    const result = await this.db
+      .select()
       .from(users)
       .where(eq(users.email, email))
       .limit(1);
-
     if (!result[0]) {
       return null;
     }
     return result[0];
   }
 
-  static async createUser(input: CreateUserInput) {
-    const existUser = await this.getByEmail(input.email);
+  async createUser(input: CreateUserInput) {
+    const existsUser = await this.getByEmail(input.email);
 
-    if (existUser)
+    if (existsUser)
       throw new AuthenticationError(
         'Пользователь с таким почтовым адресом существует'
       );
@@ -74,7 +52,7 @@ export class UserService {
       passwordHash: await hashPassword(input.password),
     };
 
-    const [user] = await db.insert(users).values(userData).returning();
+    const [user] = await this.db.insert(users).values(userData).returning();
 
     if (!user) {
       throw new Error('Failed to create user');
@@ -83,8 +61,5 @@ export class UserService {
     return publicUser;
   }
 
-  static async updateUser(
-    userId: string,
-    input: UpdateUserInput
-  ): Promise<User> {}
+  async updateUser(userId: string, input: UpdateUserInput): Promise<User> {}
 }

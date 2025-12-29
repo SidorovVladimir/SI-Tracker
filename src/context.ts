@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import { db, DrizzleDB } from './db/client';
 
 interface TokenPayload extends JwtPayload {
   id: string;
@@ -9,6 +10,7 @@ interface TokenPayload extends JwtPayload {
 }
 
 export interface Context {
+  db: DrizzleDB;
   req: Request;
   res: Response;
   currentUser: {
@@ -29,7 +31,10 @@ export const createContext = async ({
   const token = req.cookies?.auth_token;
   if (token) {
     try {
-      const payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+      const payload = jwt.verify(
+        token,
+        process.env.JWT_SECRET!
+      ) as TokenPayload;
       currentUser = {
         id: payload.id,
         firstName: payload.firstName,
@@ -40,5 +45,5 @@ export const createContext = async ({
       console.warn('invalid auth token', err);
     }
   }
-  return { currentUser, req, res };
+  return { currentUser, req, res, db };
 };
