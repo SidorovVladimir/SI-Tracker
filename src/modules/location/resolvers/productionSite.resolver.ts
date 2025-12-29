@@ -5,24 +5,32 @@ import {
 } from '../dto/CreateProductionSiteDto';
 import { ProductionSiteService } from '../service/productionSite.service';
 import { formatZodErrors } from '../../../utils/errors';
+import { Context } from '../../../context';
 
 export const Query = {
-  productionSites: async () => {
-    return ProductionSiteService.getProductionSites();
+  productionSites: async (_: unknown, __: unknown, { db }: Context) => {
+    return await new ProductionSiteService(db).getProductionSites();
   },
-  productionSite: async (_: unknown, { id }: { id: string }) => {
-    return ProductionSiteService.getProductionSite(id);
+  productionSite: async (
+    _: unknown,
+    { id }: { id: string },
+    { db }: Context
+  ) => {
+    return await new ProductionSiteService(db).getProductionSite(id);
   },
 };
 
 export const Mutation = {
   createProductionSite: async (
     _: unknown,
-    { input }: { input: CreateProductionSiteInput }
+    { input }: { input: CreateProductionSiteInput },
+    { db }: Context
   ) => {
     try {
       const validatedInput = CreateProductionSiteInputSchema.parse(input);
-      return await ProductionSiteService.createProductionSite(validatedInput);
+      return await new ProductionSiteService(db).createProductionSite(
+        validatedInput
+      );
     } catch (err) {
       if (err instanceof ZodError) {
         throw new Error(JSON.stringify(formatZodErrors(err)));
