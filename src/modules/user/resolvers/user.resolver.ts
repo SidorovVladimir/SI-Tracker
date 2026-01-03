@@ -34,4 +34,11 @@ export const Mutation = {
       throw err;
     }
   },
+  deleteUser: async (
+    _: unknown,
+    { id }: { id: string },
+    { db }: Context
+  ): Promise<boolean> => {
+    return await new UserService(db).deleteUser(id);
+  },
 };

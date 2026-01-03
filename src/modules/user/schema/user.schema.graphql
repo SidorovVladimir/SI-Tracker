@@ -3,8 +3,8 @@ type User {
   firstName: String!
   lastName: String!
   email: String!
-  createdAt: String
-  updatedAt: String
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Query {
@@ -28,4 +28,5 @@ input UpdateUserInput {
 
 type Mutation {
   updateUser(id: ID!, input: UpdateUserInput!): User!
+  deleteUser(id: ID!): Boolean!
 }

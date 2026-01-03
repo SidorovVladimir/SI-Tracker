@@ -62,4 +62,8 @@ export class UserService {
   }
 
   async updateUser(userId: string, input: UpdateUserInput): Promise<User> {}
+  async deleteUser(userId: string): Promise<boolean> {
+    await this.db.delete(users).where(eq(users.id, userId));
+    return true;
+  }
 }
