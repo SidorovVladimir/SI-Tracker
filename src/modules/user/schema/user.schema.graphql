@@ -22,8 +22,6 @@ input CreateUserInput {
 input UpdateUserInput {
   firstName: String
   lastName: String
-  email: String
-  password: String
 }
 
 type Mutation {

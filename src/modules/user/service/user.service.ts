@@ -61,7 +61,17 @@ export class UserService {
     return publicUser;
   }
 
-  async updateUser(userId: string, input: UpdateUserInput): Promise<User> {}
+  async updateUser(userId: string, input: UpdateUserInput): Promise<User> {
+    const [user] = await this.db
+      .update(users)
+      .set({ ...input, updatedAt: new Date() })
+      .where(eq(users.id, userId))
+      .returning();
+    if (!user) {
+      throw new Error('Failed to update user');
+    }
+    return user;
+  }
   async deleteUser(userId: string): Promise<boolean> {
     await this.db.delete(users).where(eq(users.id, userId));
     return true;
